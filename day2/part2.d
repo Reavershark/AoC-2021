@@ -1,10 +1,6 @@
 import std.stdio;
-import std.conv : to;
 import std.string : chomp;
 import std.format : formattedRead;
-
-import std.range;
-import std.algorithm;
 
 void eachLine(void delegate(string line) dg)
 {
