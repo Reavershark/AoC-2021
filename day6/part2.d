@@ -2,7 +2,6 @@ import std.stdio;
 import std.conv : to;
 import std.string : chomp;
 
-import std.array : split;
 import std.algorithm : map, splitter, sum;
 
 void shiftLeft(T)(T[] arr)
