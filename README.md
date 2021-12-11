@@ -2,7 +2,7 @@
 
 Run the solutions like this:
 ```
-cd day1
+cd day01
 rdmd part1.d < input.txt
 ```
 
