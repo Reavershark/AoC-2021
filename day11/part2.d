@@ -45,9 +45,32 @@ struct Squid
       Squid(-1, 1), Squid(0, 1), Squid(1, 1),
     ];
 
-    return adjecents[]
-      .map!((s) { s.x += x; s.y += y; return s; }) // Shift the static 'template' over to this squid
-      .filter!(s => s.isValid);
+    struct Adjecents
+    {
+      int x, y;
+
+      /// foreach support
+      int opApply(scope int delegate(ref Squid) dg)
+      {
+        int result = 0;
+        foreach (s; adjecents)
+        {
+          // Shift the 'template' to this squid
+          s.x += x;
+          s.y += y;
+          if (!s.isValid)
+            continue;
+
+          // Pass the adjectent to the foreach body
+          result = dg(s);
+          if (result)
+            break;
+        }
+        return result;
+      }
+    }
+
+    return Adjecents(x, y);
   }
 }
 
@@ -117,8 +140,8 @@ void main()
     foreach (ref energy; grid)
       if (energy == -1)
         energy = 0;
-    
-    if (flashes == side*side)
+
+    if (flashes == side * side)
     {
       writeln(step);
       break;
