@@ -36,10 +36,10 @@ struct Squid
     return x >= 0 && x < side && y >= 0 && y < side;
   }
 
-  /// The 3-9 adjecent points
+  /// The 3-8 adjecent points
   auto adjecents()
   {
-    static Squid[9] adjecents = [
+    static Squid[8] adjecents = [
       Squid(-1, -1), Squid(0, -1), Squid(1, -1),
       Squid(-1, 0), Squid(1, 0),
       Squid(-1, 1), Squid(0, 1), Squid(1, 1),
