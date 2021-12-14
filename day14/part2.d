@@ -13,15 +13,17 @@ struct Pair
 
 char[Pair] rules;
 long[Pair] pairs;
-char firstChar, lastChar;
+long[char] freq;
 
 void readTemplate()
 {
   string input = readln.chomp;
 
-  firstChar = input[0];
-  lastChar = input[$ - 1];
+  // Char freq
+  foreach (c; input)
+    freq[c]++;
 
+  // Pairs
   foreach (t; input.slide(2).map!(to!(char[])))
   {
     Pair p = Pair(t[0], t[1]);
@@ -47,7 +49,12 @@ void step()
     if (pair in rules)
     {
       char insert = rules[pair];
-      pairs.remove(pair);
+
+      // Char freq
+      freq[insert] += count;
+
+      // Each pair a,b becomes 2 pairs a,c and c,b
+      pairs[pair] -= count;
       pairs[Pair(pair.a, insert)] += count;
       pairs[Pair(insert, pair.b)] += count;
     }
@@ -60,29 +67,8 @@ void main()
   readln;
   readRules;
 
-  foreach (i; 0 .. 10)
-  {
-    writeln("Step ", i);
+  foreach (i; 0 .. 40)
     step;
-  }
-
-  long[char] freq;
-
-  foreach (pair, count; pairs)
-  {
-    freq[pair.a] += count;
-    freq[pair.b] += count;
-  }
-
-  // We counted each char twice
-  // foreach (c, count; freq)
-  //   freq[c] = count / 2;
-
-  // Fix the first and last char count
-  freq[firstChar] += 1;
-  // freq[lastChar] += 1;
-  
-  writeln(freq);
 
   writeln(freq.byValue.maxElement - freq.byValue.minElement);
 }
