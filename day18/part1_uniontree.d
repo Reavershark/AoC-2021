@@ -328,7 +328,6 @@ void main()
     }
   }
 
-  writeln(*root);
   writeln(root.magnitude);
 }
 
