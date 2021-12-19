@@ -36,6 +36,11 @@ struct Position
     return p;
   }
 
+  long manhattanDistance(Position other)
+  {
+    return abs(x - other.x) + abs(y - other.y) + abs(z - other.z);
+  }
+
   Position opUnary(string op)() const if (op == "-")
   {
     return Position(-x, -y, -z);
@@ -98,7 +103,7 @@ void main()
   {
     writeln;
     ulong[] nulls;
-    foreach(i, s; scanners)
+    foreach (i, s; scanners)
       if (s.position.isNull)
         nulls ~= i;
     writeln(nulls);
@@ -139,9 +144,12 @@ void main()
   }
   writeln("Done mapping");
 
-  Position[Position] beacons;
-  foreach (s; scanners)
-    foreach (b; s.beacons)
-      beacons[b] = b;
-  writeln(beacons.length);
+  long mhDist;
+  foreach (s1; scanners)
+    foreach (s2; scanners)
+    {
+      long dist = s1.position.get.manhattanDistance(s2.position.get);
+      mhDist = max(mhDist, dist);
+    }
+  writeln(mhDist);
 }
